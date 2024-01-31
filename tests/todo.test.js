@@ -64,4 +64,51 @@ describe('Testing Todo Endpoints For A RESTFUL JSON API', () => {
         expect(response.body.description).toEqual('testing post todo')
         expect(response.body.copleted).toBeFalsy()
     })
+
+    test('Given an already existing body, update an existing todo', async () => {
+        const todo = new Todo({
+            title:'test one',
+            description: 'test',
+            completed: true
+        })
+        await todo.save()
+
+        const response = await request(app).put(`/todos/${todo._id}`).send({
+            description: `new altered description`
+        })
+
+        expect(response.statusCode).toBe(200)
+        expect(response.body.description).toEqual('new altered description')
+    })
+
+    test('Given a already existing ID, delete a todo', async () => {
+        const todo = new Todo({
+            title:'test one',
+            description: 'test',
+            completed: true
+        })
+        await todo.save()
+
+        const response = await request(app).delete(`/todos/${todo._id}`)
+
+        expect(response.statusCode).toBe(200)
+        expect(response.body.msg).toEqual(`Todo with the ID: ${todo._id} has been deleted from the database.`)
+    })
+
+    test('It should show a specific todo that already exists', async () => {
+        const todo = new Todo({
+            title:'test one',
+            description: 'test',
+            completed: true
+        })
+        await todo.save()
+
+        const response = await request(app).get(`/todos/${todo._id}`)
+
+        expect(response.statusCode).toBe(200)
+        expect(response.body.title).toEqual('test one')
+        expect(response.body.description).toEqual('test')
+        expect(response.body.completed).toBeTruthy()
+    })
+
 })
