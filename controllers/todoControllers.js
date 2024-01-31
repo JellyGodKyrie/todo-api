@@ -11,7 +11,7 @@ exports.index = async function index(req, res) {
     }
 }
 
-exports.index = async function create(req, res) {
+exports.create = async function create(req, res) {
     try {
         const todo = await Todo.create(req.body)
         res.status(200).json(todo)
@@ -20,7 +20,7 @@ exports.index = async function create(req, res) {
     }
 }
 
-exports.index = async function update(req, res) {
+exports.update = async function update(req, res) {
     try {
         const updateTodo = await Todo.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true } )
         res.json(200).json(updateTodo)
@@ -29,7 +29,7 @@ exports.index = async function update(req, res) {
     }
 }
 
-exports.index = async function destroy(req, res) {
+exports.destroy = async function destroy(req, res) {
     try {
         const destroyTodo = await Todo.findOneAndDelete({ _id: req.params.id })
         res.json(200).json(destroyTodo)
@@ -39,7 +39,7 @@ exports.index = async function destroy(req, res) {
     }
 }
 
-exports.index = async function show(req, res) {
+exports.show = async function show(req, res) {
     try {
         const showTodo = await Todo.findOne({ _id: req.params.id })
         res.json(200).json(showTodo)
