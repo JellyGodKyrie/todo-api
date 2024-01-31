@@ -4,6 +4,6 @@ const todoRouter = require('./routes/todoRouter')
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use('todos', todoRouter)
+app.use('/todos', todoRouter)
 
 module.exports = app

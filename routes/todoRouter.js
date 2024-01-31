@@ -2,16 +2,15 @@ const todoCtrl = require('../controllers/todoController')
 const express = require('express')
 const router = express.Router()
 
+router.get('/', todoCtrl.index) // ok
 
-router.get('/', todoCtrl.index)
+router.post('/', todoCtrl.create) // ok
 
-router.post('/', todoCtrl.create)
+router.put('/:id', todoCtrl.update) // ok
 
-router.put('/:id', todoCtrl.update)
+router.delete('/:id', todoCtrl.destroy) // ok
 
-router.delete('/:id', todoCtrl.destroy)
-
-router.get('/:id', todoCtrl.show)
+router.get('/:id', todoCtrl.show) // good
 
 
 module.exports = router

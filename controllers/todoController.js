@@ -1,8 +1,8 @@
-const Todo = require('../models/todo')
+const Todo = require('../models/todo');
 
 
 
-exports.index = async function index(req, res) {
+exports.index = async function index (req, res) {
     try {
         const todos = await Todo.find({})
         res.status(200).json(todos)
@@ -11,7 +11,7 @@ exports.index = async function index(req, res) {
     }
 }
 
-exports.create = async function create(req, res) {
+exports.create = async function create (req, res) {
     try {
         const todo = await Todo.create(req.body)
         res.status(200).json(todo)
@@ -20,29 +20,32 @@ exports.create = async function create(req, res) {
     }
 }
 
-exports.update = async function update(req, res) {
+exports.update = async function update (req, res) {
     try {
         const updateTodo = await Todo.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true } )
-        res.json(200).json(updateTodo)
+        res.status(200).json(updateTodo)
     } catch (error) {
         res.status(400).json({msg: error.msg})
     }
 }
 
-exports.destroy = async function destroy(req, res) {
+exports.destroy = async function destroy (req, res) {
     try {
         const destroyTodo = await Todo.findOneAndDelete({ _id: req.params.id })
-        res.json(200).json(destroyTodo)
+        res.status(200).json({ 
+            msg: `Todo with the ID: ${destroyTodo._id} has been deleted from the database.`
+        }) 
+        /* find out how to show title of todo "Todo Name: ${destroyTodo._id.title}" */
         
     } catch (error) {
         res.status(400).json({msg: error.msg})
     }
 }
 
-exports.show = async function show(req, res) {
+exports.show = async function show (req, res) {
     try {
         const showTodo = await Todo.findOne({ _id: req.params.id })
-        res.json(200).json(showTodo)
+        res.status(200).json(showTodo)
     } catch (error) {
         res.status(400).json({msg: error.msg})
     }
