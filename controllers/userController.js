@@ -20,7 +20,7 @@ exports.auth = async function (req, res, next) {
     }
 }
 
-exports.createUser = async function (req, res) => {
+exports.createUser = async function (req, res) {
     try {
         const user = new User(req.body)
         await user.save()
@@ -31,14 +31,36 @@ exports.createUser = async function (req, res) => {
     }
 }
 
-exports.loginUser = async function (req, res) => {
-    
+exports.loginUser = async function (req, res) {
+    try {
+        const user = await User.findOne({ email: req.body.email })
+        if (!user || !await bcrypt.compare(req.body.password, user.password)) {
+            throw new Error('Invalid Login Credentials')
+        } else {
+            const token = await user.generateAuthToken()
+            res.json({ user, token })
+        }
+    } catch (error) {
+        res.status(400).json({ msg: error.message })
+    }
 }
 
-exports.deleteUser = async function (req, res) => {
-    
+exports.updateUser = async function (req, res) {
+    try {
+        const updates = Object.keys(req.body)
+        updates.forEach(update => req.user[update] = req.body[update])
+        await req.user.save()
+        res.json(user)
+    } catch (error) {
+        res.status(400).json({ msg: error.message })
+    }
 }
 
-exports.updateUser = async function (req, res) => {
-    
+exports.deleteUser = async function (req, res) {
+    try {
+        await req.user.deleteOne()
+        res.sendStatus(204)
+    } catch (error) {
+        res.status(400).json({ msg: error.message })
+    }
 }
