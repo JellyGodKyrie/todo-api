@@ -2,7 +2,6 @@ require('dotenv').config()
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const { response } = require('../app')
 
 exports.auth = async function (req, res, next) {
     try {
@@ -11,9 +10,8 @@ exports.auth = async function (req, res, next) {
         const user = await User.findOne({ _id: data._id })
         if (!user) {
             throw new Error('Invalid credentials')
-        } else {
-            req.user = user
         }
+        req.user = user
         next()
     } catch (error) {
         res.status(401).json({ msg: error.message })
@@ -48,6 +46,7 @@ exports.loginUser = async function (req, res) {
 exports.updateUser = async function (req, res) {
     try {
         const updates = Object.keys(req.body)
+        const user = await User.findOne({ _id: req.params.id })
         updates.forEach(update => req.user[update] = req.body[update])
         await req.user.save()
         res.json(user)
