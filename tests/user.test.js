@@ -30,4 +30,26 @@ describe('Testing For All User Routes in API', () => {
         expect(response.body.user.email).toEqual('jb4mvp@email.com')
         expect(response.body).toHaveProperty('token')
     })
+
+    test('This should login an existing user', async() => {
+        const user = await new User({
+            name: "Herbert Wright",
+            email: "herbo@gmail.com",
+            password: "nlmb4l"
+        })
+        await user.save()
+
+        const response = await request(app)
+        .post('/users/login')
+        .send({
+            name: "Herbert Wright",
+            email: "herbo@gmail.com",
+            password: "nlmb4l"
+        })
+
+        expect(response.statusCode).toBe(200)
+        expect(response.body.user.name).toEqual("Herbert Wright")
+        expect(response.body.user.email).toEqual("herbo@gmail.com")
+        expect(response.body).toHaveProperty("token")
+    })
 })
