@@ -16,7 +16,7 @@ exports.create = async function create (req, res) {
         req.body.user = req.user._id
         const todo = await Todo.create(req.body)
         req.user.todos?
-        req.user.addToSet({ _id: todo._id }):
+        req.user.todos.addToSet({ _id: todo._id }):
         req.user.todos = [{ _id: todo._id }]
         await req.user.save()
         res.status(200).json(todo)

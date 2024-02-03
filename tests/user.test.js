@@ -74,4 +74,20 @@ describe('Testing For All User Routes in API', () => {
         expect(response.body.name).toEqual("Herbert I Dont Know Wright")
         expect(response.body.email).toEqual("herboNEWLINE2@gmail.com")
     })
+
+    test('This should delete an already authenticated user from the database', async () => {
+        const user = await new User({
+            name: "Justin Tucker",
+            email: "justin34@yahoo.com",
+            password: "whynotme"
+        })
+        await user.save()
+        const token = await user.generateAuthToken()
+
+        const response = await request(app)
+        .delete(`/users/${user._id}`)
+        .set('Authorization', `Bearer ${token}`)
+
+        expect(response.statusCode).toBe(204)
+    })
 })
