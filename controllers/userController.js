@@ -47,8 +47,8 @@ exports.updateUser = async function (req, res) {
     try {
         const updates = Object.keys(req.body)
         const user = await User.findOne({ _id: req.params.id })
-        updates.forEach(update => req.user[update] = req.body[update])
-        await req.user.save()
+        updates.forEach(update => user[update] = req.body[update])
+        await user.save()
         res.json(user)
     } catch (error) {
         res.status(400).json({ msg: error.message })

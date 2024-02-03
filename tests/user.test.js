@@ -52,4 +52,26 @@ describe('Testing For All User Routes in API', () => {
         expect(response.body.user.email).toEqual("herbo@gmail.com")
         expect(response.body).toHaveProperty("token")
     })
+
+    test('This should allow an already authenticated user to update their account', async () => {
+        const user = await new User({
+            name: "Justin Tucker",
+            email: "justin34@yahoo.com",
+            password: "whynotme"
+        })
+        await user.save()
+        const token = await user.generateAuthToken()
+
+        const response = await request(app)
+        .put(`/users/${user._id}`)
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+            name: "Herbert I Dont Know Wright",
+            email: "herboNEWLINE2@gmail.com"
+        })
+
+        expect(response.statusCode).toBe(200)
+        expect(response.body.name).toEqual("Herbert I Dont Know Wright")
+        expect(response.body.email).toEqual("herboNEWLINE2@gmail.com")
+    })
 })
