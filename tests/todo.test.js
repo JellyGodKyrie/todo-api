@@ -1,17 +1,3 @@
-/*
-
-router.get('/', todoCtrl.index) // see that i can make a request to this route. het back a list of valid todos, or an empty array if its empty.
-
-router.post('/', todoCtrl.create) // make sure that I can create a todo
-
-router.put('/:id', todoCtrl.update) // make sure i get a valid id and valid body so that i can change an existing todo
-
-router.delete('/:id', todoCtrl.destroy) // make sure I get a valid id so that i can delete/destroy and existing todo
-
-router.get('/:id', todoCtrl.show) // make sure i get a valid id so i can see an existing todo
-
-*/
-
 const mongoose = require('mongoose')
 const app = require('../app')
 const { MongoMemoryServer } = require('mongodb-memory-server')

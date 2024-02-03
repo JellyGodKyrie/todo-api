@@ -38,10 +38,8 @@ exports.destroy = async function destroy (req, res) {
     try {
         const destroyTodo = await Todo.findOneAndDelete({ _id: req.params.id })
         res.status(200).json({ 
-            msg: `Todo with the ID: ${destroyTodo._id} has been deleted from the database.`
+            msg: `Todo with the ID: ${destroyTodo._id}, Title: ${destroyTodo.title} has been deleted from the database.`
         }) 
-        /* find out how to show title of todo "Todo Name: ${destroyTodo._id.title}" */
-        
     } catch (error) {
         res.status(400).json({ msg: error.msg })
     }
